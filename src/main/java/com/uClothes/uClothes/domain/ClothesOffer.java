@@ -24,12 +24,14 @@ public class ClothesOffer {
     @UuidGenerator
     private UUID id;
 
-    private String name;
+    private String name, description, url;
     private Double price;
     private ClothingCategory clothingCategory;
 
-    public ClothesOffer(String name, Double price, ClothingCategory clothingCategory) {
+    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory) {
         this.name = name;
+        this.description = description;
+        this.url = url;
         this.price = price;
         this.clothingCategory = clothingCategory;
     }
