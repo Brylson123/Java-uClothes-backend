@@ -1,13 +1,12 @@
 package com.uClothes.uClothes.controller;
 
 import com.uClothes.uClothes.domain.ClothesOffer;
+import com.uClothes.uClothes.dto.ResponseDTO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import com.uClothes.uClothes.service.ClothesOfferService;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ClothesOfferController {
@@ -20,7 +19,27 @@ public class ClothesOfferController {
 
     @GetMapping("/")
     @ResponseBody
-    public List<ClothesOffer> findAll() {
+    public ResponseDTO findAll() {
         return this.clothesOfferService.findAllOffers();
     }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseDTO getClothesOffer(@PathVariable UUID id) {
+        return clothesOfferService.findOffer(id);
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public ResponseDTO addClothesOffer(@RequestBody ClothesOffer clothesOffer) {
+        return clothesOfferService.addClothesOffer(clothesOffer);
+    }
+
+    @PatchMapping("/delete/{id}")
+    @ResponseBody
+    public ResponseDTO deleteClothesOffer(@PathVariable UUID id) {
+        return clothesOfferService.deleteClothesOffer(id);
+    }
+
 }
+
