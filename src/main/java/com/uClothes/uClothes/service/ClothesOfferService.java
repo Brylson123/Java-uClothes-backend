@@ -35,9 +35,8 @@ public class ClothesOfferService {
         if (clothesOffer == null || clothesOffer.getName() == null || clothesOffer.getPrice() == null) {
             return new ResponseDTO(false, null, "Invalid offer data");
         }
-        clothesOffer.setId(UUID.randomUUID());
         clothesRepository.save(clothesOffer);
-        return new ResponseDTO(true, clothesOffer.getId());
+        return new ResponseDTO(true, clothesOffer);
     }
 
     public ResponseDTO deleteClothesOffer(UUID id) {
@@ -47,5 +46,23 @@ public class ClothesOfferService {
             return new ResponseDTO(true, id);
         }
         return new ResponseDTO(false, id, "Offer not found");
+    }
+
+    public ResponseDTO updateClothesOffer(UUID id, ClothesOffer updatedOffer) {
+        if (id == null || updatedOffer == null) {
+            return new ResponseDTO(false, "Invalid data");
+        }
+        Optional<ClothesOffer> existingOffer = clothesRepository.findById(id);
+        if (existingOffer.isPresent()) {
+            ClothesOffer offer = existingOffer.get();
+            offer.setName(updatedOffer.getName());
+            offer.setDescription(updatedOffer.getDescription());
+            offer.setUrl(updatedOffer.getUrl());
+            offer.setPrice(updatedOffer.getPrice());
+            offer.setClothingCategory(updatedOffer.getClothingCategory());
+            clothesRepository.save(offer);
+            return new ResponseDTO(true, offer);
+        }
+        return new ResponseDTO(false, "Offer not found");
     }
 }
