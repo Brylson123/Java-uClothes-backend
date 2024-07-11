@@ -40,4 +40,9 @@ public class ResponseDTO {
         this.id = id;
         this.error = error;
     }
+
+    public ResponseDTO(String error) {
+        this.isSuccess = false;
+        this.error = error;
+    }
 }

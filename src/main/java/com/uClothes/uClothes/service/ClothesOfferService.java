@@ -50,7 +50,7 @@ public class ClothesOfferService {
 
     public ResponseDTO updateClothesOffer(UUID id, ClothesOffer updatedOffer) {
         if (id == null || updatedOffer == null) {
-            return new ResponseDTO(false, "Invalid data");
+            return new ResponseDTO( "Invalid data");
         }
         Optional<ClothesOffer> existingOffer = clothesRepository.findById(id);
         if (existingOffer.isPresent()) {
@@ -63,6 +63,7 @@ public class ClothesOfferService {
             clothesRepository.save(offer);
             return new ResponseDTO(true, offer);
         }
-        return new ResponseDTO(false, "Offer not found");
+        return new ResponseDTO("Offer not found");
     }
 }
+
