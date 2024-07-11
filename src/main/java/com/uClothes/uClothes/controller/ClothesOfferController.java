@@ -41,5 +41,10 @@ public class ClothesOfferController {
         return clothesOfferService.deleteClothesOffer(id);
     }
 
+    @PutMapping("/update/{id}")
+    @ResponseBody
+    public ResponseDTO updateClothesOffer(@PathVariable UUID id, @RequestBody ClothesOffer updatedOffer) {
+        return clothesOfferService.updateClothesOffer(id, updatedOffer);
+    }
 }
 
