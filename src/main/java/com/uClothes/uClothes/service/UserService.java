@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.UnsupportedEncodingException;
-
 @Service
 public class UserService {
 
