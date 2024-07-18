@@ -5,5 +5,13 @@ public enum ClothingCategory {
     PANTS,
     JACKETS,
     SHOES,
-    ACCESSORIES
+    ACCESSORIES;
+
+    public static ClothingCategory fromString(String category) {
+        try {
+            return ClothingCategory.valueOf(category.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }
