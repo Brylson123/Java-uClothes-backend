@@ -23,16 +23,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtUtilService jwtUtil;
+    private final JwtUtilService jwtUtilService;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtilService jwtUtil) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtilService jwtUtilService) {
         this.customUserDetailsService = customUserDetailsService;
-        this.jwtUtil = jwtUtil;
+        this.jwtUtilService = jwtUtilService;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil, customUserDetailsService);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtilService, customUserDetailsService);
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
