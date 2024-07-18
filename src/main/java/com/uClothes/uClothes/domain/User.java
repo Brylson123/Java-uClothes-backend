@@ -19,17 +19,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue
     @UuidGenerator
     private UUID id;
 
-    private String username, password;
-    private Integer role;
+    private String username, password, currentTokenId;
+    private UserRole role;
 
-    public User(String username, String password, Integer role) {
+    public User(String username, String password, UserRole role, String currentTokenId) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.currentTokenId = currentTokenId;
     }
 }
