@@ -13,35 +13,35 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseDTO {
+public class ResponseOfferDTO {
     private boolean isSuccess;
     private UUID id;
     private String error;
     private ClothesOffer offer;
     private List<ClothesOffer> offers;
 
-    public ResponseDTO(boolean isSuccess, UUID id) {
+    public ResponseOfferDTO(boolean isSuccess, UUID id) {
         this.isSuccess = isSuccess;
         this.id = id;
     }
 
-    public ResponseDTO(boolean isSuccess, ClothesOffer offer) {
+    public ResponseOfferDTO(boolean isSuccess, ClothesOffer offer) {
         this.isSuccess = isSuccess;
         this.offer = offer;
     }
 
-    public ResponseDTO(boolean isSuccess, List<ClothesOffer> offers) {
+    public ResponseOfferDTO(boolean isSuccess, List<ClothesOffer> offers) {
         this.isSuccess = isSuccess;
         this.offers = offers;
     }
 
-    public ResponseDTO(boolean isSuccess, UUID id, String error) {
+    public ResponseOfferDTO(boolean isSuccess, UUID id, String error) {
         this.isSuccess = isSuccess;
         this.id = id;
         this.error = error;
     }
 
-    public ResponseDTO(String error) {
+    public ResponseOfferDTO(String error) {
         this.isSuccess = false;
         this.error = error;
     }
