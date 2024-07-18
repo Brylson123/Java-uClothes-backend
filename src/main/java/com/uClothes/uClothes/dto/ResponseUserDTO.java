@@ -19,22 +19,8 @@ public class ResponseUserDTO {
     private String error;
     private String token;
 
-    public ResponseUserDTO(boolean isSuccess) {
-        this.isSuccess = isSuccess;
-    }
-
-    public ResponseUserDTO(boolean isSuccess, User user) {
-        this.isSuccess = isSuccess;
-        this.user = user;
-    }
-
     public ResponseUserDTO(boolean isSuccess, String token) {
         this.isSuccess = isSuccess;
         this.token = token;
-    }
-
-    public ResponseUserDTO(String error) {
-        this.isSuccess = false;
-        this.error = error;
     }
 }
