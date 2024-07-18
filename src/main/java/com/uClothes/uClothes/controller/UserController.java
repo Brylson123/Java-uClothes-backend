@@ -1,28 +1,40 @@
 package com.uClothes.uClothes.controller;
 
 import com.uClothes.uClothes.domain.User;
-import com.uClothes.uClothes.repositories.UserRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import com.uClothes.uClothes.dto.ResponseUserDTO;
+import com.uClothes.uClothes.security.UserLoginRequest;
+import com.uClothes.uClothes.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Controller
+@RestController
+@RequestMapping("/user")
 public class UserController {
-    private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public ResponseUserDTO registerUser(@RequestBody User user) {
+        return userService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public ResponseUserDTO loginUser(@RequestBody UserLoginRequest loginRequest, HttpServletResponse response) {
+        return userService.loginUser(loginRequest, response);
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/logout")
     @ResponseBody
-    public List<User> login(){
-        userRepository.save(new User("Adi", "example", 1));
-       List<User> users =   userRepository.findAll();
-        System.out.println(users);
-        return users;
+    public ResponseUserDTO logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getUserPrincipal().getName();
+        return userService.logoutUser(username, response);
     }
 }
