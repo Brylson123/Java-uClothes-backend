@@ -28,7 +28,7 @@ public class ClothesOffer {
     private Double price;
     private ClothingCategory clothingCategory;
 
-    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory,  String imageName) {
+    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory, String imageName) {
         this.name = name;
         this.description = description;
         this.url = url;

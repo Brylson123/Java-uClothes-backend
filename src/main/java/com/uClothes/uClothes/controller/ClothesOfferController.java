@@ -2,12 +2,12 @@ package com.uClothes.uClothes.controller;
 
 import com.uClothes.uClothes.domain.ClothingCategory;
 import com.uClothes.uClothes.dto.ResponseOfferDTO;
+import com.uClothes.uClothes.service.ClothesOfferService;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.uClothes.uClothes.service.ClothesOfferService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class ClothesOfferController {
     public ResponseOfferDTO findOffersByCategory(@PathVariable String category) {
         ClothingCategory clothingCategory = ClothingCategory.fromString(category);
         if (clothingCategory == null) {
-            return new ResponseOfferDTO( "Invalid category");
+            return new ResponseOfferDTO("Invalid category");
         }
         return clothesOfferService.findOffersByCategory(clothingCategory);
     }
