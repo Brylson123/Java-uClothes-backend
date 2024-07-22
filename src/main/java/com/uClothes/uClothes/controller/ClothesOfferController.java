@@ -1,13 +1,14 @@
 package com.uClothes.uClothes.controller;
 
 import com.uClothes.uClothes.domain.ClothingCategory;
+import com.uClothes.uClothes.domain.Gender;
 import com.uClothes.uClothes.dto.ResponseOfferDTO;
+import com.uClothes.uClothes.service.ClothesOfferService;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.uClothes.uClothes.service.ClothesOfferService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,13 +37,30 @@ public class ClothesOfferController {
 
     @GetMapping("/category/{category}")
     @ResponseBody
-    public ResponseOfferDTO findOffersByCategory(@PathVariable String category) {
-        ClothingCategory clothingCategory = ClothingCategory.fromString(category);
-        if (clothingCategory == null) {
-            return new ResponseOfferDTO( "Invalid category");
+    public ResponseOfferDTO findOffersByCategoryAndGender(
+            @PathVariable String category,
+            @RequestParam(required = false) String gender) {
+
+        ClothingCategory clothingCategory = null;
+        if (!category.equalsIgnoreCase("all")) {
+            clothingCategory = ClothingCategory.fromString(category);
+            if (clothingCategory == null) {
+                return new ResponseOfferDTO(false, null, "Invalid category");
+            }
         }
-        return clothesOfferService.findOffersByCategory(clothingCategory);
+
+        Gender genderEnum = null;
+        if (gender != null && !gender.equalsIgnoreCase("all")) {
+            try {
+                genderEnum = Gender.valueOf(gender.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return new ResponseOfferDTO(false, null, "Invalid gender");
+            }
+        }
+
+        return clothesOfferService.findOffersByCategoryAndGender(clothingCategory, genderEnum);
     }
+
 
     @PostMapping("/{id}/image")
     public ResponseEntity<String> uploadImage(@PathVariable UUID id, @RequestParam("image") MultipartFile image) {

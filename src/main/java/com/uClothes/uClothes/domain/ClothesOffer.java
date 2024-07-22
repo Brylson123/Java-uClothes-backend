@@ -27,13 +27,15 @@ public class ClothesOffer {
     private String name, description, url, imageName;
     private Double price;
     private ClothingCategory clothingCategory;
+    private Gender gender;
 
-    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory,  String imageName) {
+    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory, Gender gender, String imageName) {
         this.name = name;
         this.description = description;
         this.url = url;
         this.price = price;
         this.clothingCategory = clothingCategory;
+        this.gender = gender;
         this.imageName = imageName;
     }
 }
