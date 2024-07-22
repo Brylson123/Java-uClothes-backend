@@ -4,29 +4,38 @@ import com.uClothes.uClothes.domain.ClothesOffer;
 import com.uClothes.uClothes.domain.ClothingCategory;
 import com.uClothes.uClothes.dto.ResponseOfferDTO;
 import com.uClothes.uClothes.repositories.ClothesRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class ClothesOfferService {
     private final ClothesRepository clothesRepository;
     private final String uploadDir = "uploads/";
+    private final Validator validator;
 
     public ClothesOfferService(ClothesRepository clothesRepository) {
         this.clothesRepository = clothesRepository;
+        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+            this.validator = factory.getValidator();
+        }
     }
 
     public ResponseOfferDTO findAllOffers() {
@@ -43,7 +52,10 @@ public class ClothesOfferService {
                 .orElseGet(() -> new ResponseOfferDTO(false, id, "Offer not found"));
     }
 
-    public ResponseEntity<ResponseOfferDTO> addClothesOffer(String name, String description, String url, Double price, String clothingCategory, MultipartFile image) {
+    public ResponseOfferDTO addClothesOffer(String name, String description, String url, Double price, String clothingCategory, MultipartFile image) {
+        if (name == null || name.isEmpty() || description == null || description.isEmpty() || url == null || url.isEmpty() || price == null || price <= 0 || clothingCategory == null || clothingCategory.isEmpty() || image == null || image.isEmpty()) {
+            return new ResponseOfferDTO("Invalid input data");
+        }
         try {
             String imageName = UUID.randomUUID() + "_" + image.getOriginalFilename();
             Path imagePath = Paths.get(uploadDir).resolve(imageName).normalize();
@@ -51,15 +63,27 @@ public class ClothesOfferService {
             Files.copy(image.getInputStream(), imagePath);
 
             ClothesOffer offer = new ClothesOffer(name, description, url, price, ClothingCategory.valueOf(clothingCategory.toUpperCase()), imageName);
+
+            Set<ConstraintViolation<ClothesOffer>> violations = validator.validate(offer);
+            if (!violations.isEmpty()) {
+                return new ResponseOfferDTO("Validation errors: " + violations);
+            }
+
             clothesRepository.save(offer);
 
-            return ResponseEntity.ok(new ResponseOfferDTO(true, offer));
+            return new ResponseOfferDTO(true, offer);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseOfferDTO(false, null, "Failed to save offer"));
+            return new ResponseOfferDTO("Failed to save offer");
+        } catch (Exception e) {
+            return new ResponseOfferDTO("An unexpected error occurred");
         }
     }
 
+
     public ResponseOfferDTO deleteClothesOffer(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Invalid ID");
+        }
         Optional<ClothesOffer> clothesOffer = clothesRepository.findById(id);
         if (clothesOffer.isPresent()) {
             ClothesOffer offer = clothesOffer.get();
@@ -68,19 +92,18 @@ public class ClothesOfferService {
                 try {
                     Files.deleteIfExists(imagePath);
                 } catch (IOException e) {
-                    return new ResponseOfferDTO(false, id, "Failed to delete image from disk");
+                    return new ResponseOfferDTO("Failed to delete image from disk");
                 }
             }
-
             clothesRepository.delete(offer);
             return new ResponseOfferDTO(true, id);
         }
-        return new ResponseOfferDTO(false, id, "Offer not found");
+        return new ResponseOfferDTO("Offer not found");
     }
 
     public ResponseOfferDTO updateClothesOffer(UUID id, ClothesOffer updatedOffer, MultipartFile image) {
         if (id == null || updatedOffer == null) {
-            return new ResponseOfferDTO("Invalid data");
+            return new ResponseOfferDTO(false, null, "Invalid data");
         }
         Optional<ClothesOffer> existingOffer = clothesRepository.findById(id);
         if (existingOffer.isPresent()) {
@@ -104,10 +127,15 @@ public class ClothesOfferService {
                 }
             }
 
+            Set<ConstraintViolation<ClothesOffer>> violations = validator.validate(offer);
+            if (!violations.isEmpty()) {
+                return new ResponseOfferDTO(false, null, "Validation errors: " + violations);
+            }
+
             clothesRepository.save(offer);
             return new ResponseOfferDTO(true, offer);
         }
-        return new ResponseOfferDTO("Offer not found");
+        return new ResponseOfferDTO(false, null, "Offer not found");
     }
 
     public ResponseOfferDTO findOffersByCategory(ClothingCategory category) {
@@ -119,6 +147,9 @@ public class ClothesOfferService {
     }
 
     public void saveImage(UUID id, MultipartFile image) throws IOException {
+        if (id == null || image == null || image.isEmpty()) {
+            throw new IllegalArgumentException("Invalid ID or image");
+        }
         Optional<ClothesOffer> offer = clothesRepository.findById(id);
         if (offer.isPresent()) {
             String imageName = id + "_" + image.getOriginalFilename();
@@ -135,6 +166,9 @@ public class ClothesOfferService {
     }
 
     public ResponseEntity<Resource> getImage(String imageName) {
+        if (imageName == null || imageName.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         try {
             Path imagePath = Paths.get(uploadDir).resolve(imageName).normalize();
             Resource resource = new UrlResource(imagePath.toUri());
@@ -151,4 +185,3 @@ public class ClothesOfferService {
         }
     }
 }
-
