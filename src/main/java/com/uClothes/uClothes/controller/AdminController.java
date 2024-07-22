@@ -2,6 +2,7 @@ package com.uClothes.uClothes.controller;
 
 import com.uClothes.uClothes.domain.ClothesOffer;
 import com.uClothes.uClothes.domain.ClothingCategory;
+import com.uClothes.uClothes.domain.Gender;
 import com.uClothes.uClothes.dto.ResponseOfferDTO;
 import com.uClothes.uClothes.service.ClothesOfferService;
 import org.springframework.stereotype.Controller;
@@ -28,8 +29,9 @@ public class AdminController {
                                             @RequestParam("url") String url,
                                             @RequestParam("price") Double price,
                                             @RequestParam("clothingCategory") String clothingCategory,
+                                            @RequestParam("gender") String gender,
                                             @RequestParam("image") MultipartFile image) {
-        return clothesOfferService.addClothesOffer(name, description, url, price, clothingCategory, image);
+        return clothesOfferService.addClothesOffer(name, description, url, price, clothingCategory, gender, image);
     }
 
     @PatchMapping("/delete/{id}")
@@ -46,12 +48,14 @@ public class AdminController {
                                                @RequestParam("url") String url,
                                                @RequestParam("price") Double price,
                                                @RequestParam("clothingCategory") String clothingCategory,
+                                               @RequestParam("gender") Gender gender,
                                                @RequestParam(value = "image", required = false) MultipartFile image) {
         ClothesOffer updatedOffer = new ClothesOffer();
         updatedOffer.setName(name);
         updatedOffer.setDescription(description);
         updatedOffer.setUrl(url);
         updatedOffer.setPrice(price);
+        updatedOffer.setGender(gender);
         updatedOffer.setClothingCategory(ClothingCategory.valueOf(clothingCategory.toUpperCase()));
         return clothesOfferService.updateClothesOffer(id, updatedOffer, image);
     }

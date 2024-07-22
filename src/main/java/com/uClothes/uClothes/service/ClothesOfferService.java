@@ -2,6 +2,7 @@ package com.uClothes.uClothes.service;
 
 import com.uClothes.uClothes.domain.ClothesOffer;
 import com.uClothes.uClothes.domain.ClothingCategory;
+import com.uClothes.uClothes.domain.Gender;
 import com.uClothes.uClothes.dto.ResponseOfferDTO;
 import com.uClothes.uClothes.repositories.ClothesRepository;
 import jakarta.validation.ConstraintViolation;
@@ -52,7 +53,7 @@ public class ClothesOfferService {
                 .orElseGet(() -> new ResponseOfferDTO(false, id, "Offer not found"));
     }
 
-    public ResponseOfferDTO addClothesOffer(String name, String description, String url, Double price, String clothingCategory, MultipartFile image) {
+    public ResponseOfferDTO addClothesOffer(String name, String description, String url, Double price, String clothingCategory, String gender, MultipartFile image) {
         if (name == null || name.isEmpty() || description == null || description.isEmpty() || url == null || url.isEmpty() || price == null || price <= 0 || clothingCategory == null || clothingCategory.isEmpty() || image == null || image.isEmpty()) {
             return new ResponseOfferDTO("Invalid input data");
         }
@@ -61,8 +62,8 @@ public class ClothesOfferService {
             Path imagePath = Paths.get(uploadDir).resolve(imageName).normalize();
             Files.createDirectories(imagePath.getParent());
             Files.copy(image.getInputStream(), imagePath);
-
-            ClothesOffer offer = new ClothesOffer(name, description, url, price, ClothingCategory.valueOf(clothingCategory.toUpperCase()), imageName);
+            System.out.println(Gender.valueOf(gender.toUpperCase()));
+            ClothesOffer offer = new ClothesOffer(name, description, url, price, ClothingCategory.valueOf(clothingCategory.toUpperCase()), Gender.valueOf(gender.toUpperCase()), imageName);
 
             Set<ConstraintViolation<ClothesOffer>> violations = validator.validate(offer);
             if (!violations.isEmpty()) {
@@ -113,6 +114,7 @@ public class ClothesOfferService {
             offer.setUrl(updatedOffer.getUrl());
             offer.setPrice(updatedOffer.getPrice());
             offer.setClothingCategory(updatedOffer.getClothingCategory());
+            offer.setGender(updatedOffer.getGender());
 
             if (image != null && !image.isEmpty()) {
                 try {
@@ -138,13 +140,24 @@ public class ClothesOfferService {
         return new ResponseOfferDTO(false, null, "Offer not found");
     }
 
-    public ResponseOfferDTO findOffersByCategory(ClothingCategory category) {
+    public ResponseOfferDTO findOffersByCategoryAndGender(ClothingCategory category, Gender gender) {
+        List<ClothesOffer> offers;
         if (category == null) {
-            return new ResponseOfferDTO(false, null, "Invalid category");
+            if (gender != null) {
+                offers = clothesRepository.findByGender(gender);
+            } else {
+                offers = clothesRepository.findAll();
+            }
+        } else {
+            if (gender != null) {
+                offers = clothesRepository.findByClothingCategoryAndGender(category, gender);
+            } else {
+                offers = clothesRepository.findByClothingCategory(category);
+            }
         }
-        List<ClothesOffer> offers = clothesRepository.findByClothingCategory(category);
         return new ResponseOfferDTO(true, offers);
     }
+
 
     public void saveImage(UUID id, MultipartFile image) throws IOException {
         if (id == null || image == null || image.isEmpty()) {
