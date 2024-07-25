@@ -28,14 +28,16 @@ public class ClothesOffer {
     private Double price;
     private ClothingCategory clothingCategory;
     private Gender gender;
+    private String size;
 
-    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory, Gender gender, String imageName) {
+    public ClothesOffer(String name, String description, String url, Double price, ClothingCategory clothingCategory, Gender gender, String size, String imageName) {
         this.name = name;
         this.description = description;
         this.url = url;
         this.price = price;
         this.clothingCategory = clothingCategory;
         this.gender = gender;
+        this.size = size;
         this.imageName = imageName;
     }
 }
