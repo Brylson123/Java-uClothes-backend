@@ -53,7 +53,7 @@ public class ClothesOfferService {
                 .orElseGet(() -> new ResponseOfferDTO(false, id, "Offer not found"));
     }
 
-    public ResponseOfferDTO addClothesOffer(String name, String description, String url, Double price, String clothingCategory, String gender, MultipartFile image) {
+    public ResponseOfferDTO addClothesOffer(String name, String description, String url, Double price, String clothingCategory, String gender, String size, MultipartFile image) {
         if (name == null || name.isEmpty() || description == null || description.isEmpty() || url == null || url.isEmpty() || price == null || price <= 0 || clothingCategory == null || clothingCategory.isEmpty() || image == null || image.isEmpty()) {
             return new ResponseOfferDTO("Invalid input data");
         }
@@ -63,7 +63,7 @@ public class ClothesOfferService {
             Files.createDirectories(imagePath.getParent());
             Files.copy(image.getInputStream(), imagePath);
             System.out.println(Gender.valueOf(gender.toUpperCase()));
-            ClothesOffer offer = new ClothesOffer(name, description, url, price, ClothingCategory.valueOf(clothingCategory.toUpperCase()), Gender.valueOf(gender.toUpperCase()), imageName);
+            ClothesOffer offer = new ClothesOffer(name, description, url, price, ClothingCategory.valueOf(clothingCategory.toUpperCase()), Gender.valueOf(gender.toUpperCase()), size, imageName);
 
             Set<ConstraintViolation<ClothesOffer>> violations = validator.validate(offer);
             if (!violations.isEmpty()) {
@@ -115,6 +115,7 @@ public class ClothesOfferService {
             offer.setPrice(updatedOffer.getPrice());
             offer.setClothingCategory(updatedOffer.getClothingCategory());
             offer.setGender(updatedOffer.getGender());
+            offer.setSize(updatedOffer.getSize());
 
             if (image != null && !image.isEmpty()) {
                 try {

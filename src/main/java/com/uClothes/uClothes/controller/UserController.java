@@ -18,6 +18,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/getUserByToken/{token}")
+    @ResponseBody
+    public ResponseUserDTO getUserByToken(@PathVariable String token) {
+        return userService.getUserByToken(token);
+    }
+
     @PostMapping("/register")
     @ResponseBody
     public ResponseUserDTO registerUser(@RequestBody User user) {

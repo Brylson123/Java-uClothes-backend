@@ -1,7 +1,7 @@
 package com.uClothes.uClothes.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.uClothes.uClothes.domain.User;
+import com.uClothes.uClothes.domain.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,12 +15,24 @@ import java.util.UUID;
 public class ResponseUserDTO {
     private boolean isSuccess;
     private UUID id;
-    private User user;
-    private String error;
-    private String token;
+    private UserRole userRole;
+    private String user;
+    private String error, jwtToken;
 
-    public ResponseUserDTO(boolean isSuccess, String token) {
+    public ResponseUserDTO(boolean isSuccess, String error) {
         this.isSuccess = isSuccess;
-        this.token = token;
+        this.error = error;
+    }
+
+    public ResponseUserDTO(boolean isSuccess) {
+        this.isSuccess = isSuccess;
+    }
+
+
+    public ResponseUserDTO(boolean isSuccess, UserRole userRole,  String user, String jwtToken) {
+        this.isSuccess = isSuccess;
+        this.userRole = userRole;
+        this.user = user;
+        this.jwtToken = jwtToken;
     }
 }

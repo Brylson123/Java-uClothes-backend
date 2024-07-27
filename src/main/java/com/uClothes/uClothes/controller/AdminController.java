@@ -30,8 +30,9 @@ public class AdminController {
                                             @RequestParam("price") Double price,
                                             @RequestParam("clothingCategory") String clothingCategory,
                                             @RequestParam("gender") String gender,
+                                            @RequestParam("size") String size,
                                             @RequestParam("image") MultipartFile image) {
-        return clothesOfferService.addClothesOffer(name, description, url, price, clothingCategory, gender, image);
+        return clothesOfferService.addClothesOffer(name, description, url, price, clothingCategory, gender, size, image);
     }
 
     @PatchMapping("/delete/{id}")
@@ -48,14 +49,16 @@ public class AdminController {
                                                @RequestParam("url") String url,
                                                @RequestParam("price") Double price,
                                                @RequestParam("clothingCategory") String clothingCategory,
-                                               @RequestParam("gender") Gender gender,
+                                               @RequestParam("gender") String gender,
+                                               @RequestParam("size") String size,
                                                @RequestParam(value = "image", required = false) MultipartFile image) {
         ClothesOffer updatedOffer = new ClothesOffer();
         updatedOffer.setName(name);
         updatedOffer.setDescription(description);
         updatedOffer.setUrl(url);
         updatedOffer.setPrice(price);
-        updatedOffer.setGender(gender);
+        updatedOffer.setGender(Gender.valueOf(gender.toUpperCase()));
+        updatedOffer.setSize(size);
         updatedOffer.setClothingCategory(ClothingCategory.valueOf(clothingCategory.toUpperCase()));
         return clothesOfferService.updateClothesOffer(id, updatedOffer, image);
     }
