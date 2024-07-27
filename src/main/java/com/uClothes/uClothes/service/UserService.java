@@ -42,10 +42,12 @@ public class UserService {
             userRepository.save(user);
             Cookie cookie = new Cookie("jwt", token);
             cookie.setPath("/");
-            cookie.setHttpOnly(true);
+            cookie.setHttpOnly(false);
             cookie.setMaxAge(10 * 60 * 60);
+            cookie.setSecure(false);
+
             response.addCookie(cookie);
-            return new ResponseUserDTO(true, token);
+            return new ResponseUserDTO(true, user.getRole(), user.getUsername(), token);
         }
         return new ResponseUserDTO(false, "Invalid username or password.");
     }
@@ -73,5 +75,13 @@ public class UserService {
         } catch (Exception e) {
             return new ResponseUserDTO(false, "Error during logout: " + e.getMessage());
         }
+    }
+
+    public ResponseUserDTO getUserByToken(String token) {
+        boolean findUser = isTokenValid(token);
+        if(!findUser) {
+            return new ResponseUserDTO(false);
+        }
+        return new ResponseUserDTO(true);
     }
 }
