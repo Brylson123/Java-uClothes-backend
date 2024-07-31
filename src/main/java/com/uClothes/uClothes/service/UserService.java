@@ -68,7 +68,7 @@ public class UserService {
                 cookie.setPath("/");
                 cookie.setMaxAge(0);
                 response.addCookie(cookie);
-                return new ResponseUserDTO(true, "User logged out successfully.");
+                return new ResponseUserDTO(true);
             } else {
                 return new ResponseUserDTO(false, "User not found.");
             }

@@ -22,7 +22,6 @@ public class UClothesApplication {
             System.err.println("One or more required environment variables are missing. Please check your .env file.");
             System.exit(1);
         }
-        System.out.println(jwtSecret);
         System.setProperty("DB_USERNAME", dbUsername);
         System.setProperty("DB_PASSWORD", dbPassword);
         System.setProperty("DB_URL", dbUrl);

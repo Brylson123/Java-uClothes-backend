@@ -62,7 +62,6 @@ public class ClothesOfferService {
             Path imagePath = Paths.get(uploadDir).resolve(imageName).normalize();
             Files.createDirectories(imagePath.getParent());
             Files.copy(image.getInputStream(), imagePath);
-            System.out.println(Gender.valueOf(gender.toUpperCase()));
             ClothesOffer offer = new ClothesOffer(name, description, url, price, ClothingCategory.valueOf(clothingCategory.toUpperCase()), Gender.valueOf(gender.toUpperCase()), size, imageName);
 
             Set<ConstraintViolation<ClothesOffer>> violations = validator.validate(offer);

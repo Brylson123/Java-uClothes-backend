@@ -35,7 +35,7 @@ public class AdminController {
         return clothesOfferService.addClothesOffer(name, description, url, price, clothingCategory, gender, size, image);
     }
 
-    @PatchMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseBody
     public ResponseOfferDTO deleteClothesOffer(@PathVariable UUID id) {
         return clothesOfferService.deleteClothesOffer(id);

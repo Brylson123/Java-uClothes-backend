@@ -16,8 +16,7 @@ public class ResponseUserDTO {
     private boolean isSuccess;
     private UUID id;
     private UserRole userRole;
-    private String user;
-    private String error, jwtToken;
+    private String error, jwtToken, user;
 
     public ResponseUserDTO(boolean isSuccess, String error) {
         this.isSuccess = isSuccess;
@@ -28,8 +27,7 @@ public class ResponseUserDTO {
         this.isSuccess = isSuccess;
     }
 
-
-    public ResponseUserDTO(boolean isSuccess, UserRole userRole,  String user, String jwtToken) {
+    public ResponseUserDTO(boolean isSuccess, UserRole userRole, String user, String jwtToken) {
         this.isSuccess = isSuccess;
         this.userRole = userRole;
         this.user = user;
