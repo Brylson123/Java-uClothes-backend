@@ -62,7 +62,7 @@ public class ClothesOfferController {
     }
 
 
-    @PostMapping("/{id}/image")
+    @PostMapping("/image/{id}")
     public ResponseEntity<String> uploadImage(@PathVariable UUID id, @RequestParam("image") MultipartFile image) {
         try {
             clothesOfferService.saveImage(id, image);
