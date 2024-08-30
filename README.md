@@ -24,7 +24,7 @@ JWT_SECRET=exampleJWTSECRET
 Admin:
 POST /admin/add
 To add an offer example FormData:
-![img.png](screenshots%2Fimg.png)
+[![img.png](screenshots%2Fimg.png)](https://github.com/Brylson123/Java-uClothes-backend/blob/main/screenshots/img.png)
 
 DELETE /admin/delete/{id}
 To delete an offer, replace `{id}` with the ID present in the database.
