@@ -1,6 +1,5 @@
 package com.uClothes.uClothes.controller;
 
-import com.uClothes.uClothes.domain.User;
 import com.uClothes.uClothes.dto.ResponseUserDTO;
 import com.uClothes.uClothes.security.UserLoginRequest;
 import com.uClothes.uClothes.service.UserService;
@@ -22,12 +21,6 @@ public class UserController {
     @ResponseBody
     public ResponseUserDTO getUserByToken(@PathVariable String token) {
         return userService.getUserByToken(token);
-    }
-
-    @PostMapping("/register")
-    @ResponseBody
-    public ResponseUserDTO registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
     }
 
     @PostMapping("/login")
