@@ -16,9 +16,11 @@ public class UClothesApplication {
         String dbPassword = dotenv.get("DB_PASSWORD");
         String dbUrl = dotenv.get("DB_URL");
         String jwtSecret = dotenv.get("JWT_SECRET");
+        String adminName = dotenv.get("ADMIN_NAME");
+        String adminPassword = dotenv.get("ADMIN_PASSWORD");
 
 
-        if (dbUsername == null || dbPassword == null || dbUrl == null || jwtSecret == null) {
+        if (dbUsername == null || dbPassword == null || dbUrl == null || jwtSecret == null || adminName == null || adminPassword == null) {
             System.err.println("One or more required environment variables are missing. Please check your .env file.");
             System.exit(1);
         }
@@ -26,6 +28,8 @@ public class UClothesApplication {
         System.setProperty("DB_PASSWORD", dbPassword);
         System.setProperty("DB_URL", dbUrl);
         System.setProperty("JWT_SECRET", jwtSecret);
+        System.setProperty("ADMIN_NAME", adminName);
+        System.setProperty("ADMIN_PASSWORD", adminPassword);
 
         File uploadDir = new File("uploads");
         if (!uploadDir.exists()) {
