@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AdminInitializer implements CommandLineRunner {
-
     private final UserService userService;
+
     private final UserRepository userRepository;
 
     @Value("${ADMIN_NAME}")
@@ -25,19 +25,16 @@ public class AdminInitializer implements CommandLineRunner {
         this.userRepository = userRepository;
     }
 
-    @Override
     public void run(String... args) {
-        if(userRepository.findByUsername(adminName) != null){
-        User admin = new User();
-        admin.setUsername(adminName);
-        admin.setPassword(adminPassword);
-        admin.setRole(UserRole.ADMIN);
-        userService.registerUser(admin);
-        System.out.println("Admin user created.");
-        }
-        else {
+        if (this.userRepository.findByUsername(this.adminName) == null) {
+            User admin = new User();
+            admin.setUsername(this.adminName);
+            admin.setPassword(this.adminPassword);
+            admin.setRole(UserRole.ADMIN);
+            this.userService.registerUser(admin);
+            System.out.println("Admin user created.");
+        } else {
             System.out.println("Admin user is already registered");
         }
     }
 }
-
