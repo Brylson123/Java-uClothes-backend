@@ -9,6 +9,8 @@ DB_USERNAME=yourUsername
 DB_PASSWORD=yourPassword
 DB_URL=jdbc:mysql://localhost:3306/example
 JWT_SECRET=exampleJWTSECRET
+ADMIN_NAME=exampleNameAdmin
+ADMIN_PASSWORD=examplePasswordAdmin
 ```
 # To run application
 ```plaintext
@@ -31,7 +33,9 @@ To delete an offer, replace `{id}` with the ID present in the database.
 
 PUT /admin/update/{id}
 You can update an offer with FormData
-
+```
+[![img.png](screenshots%2Fimg_1.png)](https://github.com/Brylson123/Java-uClothes-backend/blob/main/screenshots/img_1.png)
+```
 Offer:
 GET /
 Return all JSON with all offers in the database
