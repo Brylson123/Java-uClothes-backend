@@ -2,6 +2,7 @@
 
 This is the UClothes application. Below is an example of the `.env` file needed for the application to run correctly.
 
+Link for fe of app: https://github.com/Brylson123/NextJS-uClothes-frontend
 # Example .env file to connect to the database
 ```plaintext
 # .env
