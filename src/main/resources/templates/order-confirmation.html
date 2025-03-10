@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #4CAF50;
+        }
+        .details img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details p {
+            margin: 10px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Thank you for your purchase!</h1>
+        <p>Your order ID: <strong th:text="${orderId}"></strong></p>
+    </div>
+    <div class="details">
+        <h3>Order Summary:</h3>
+        <p><strong>Product:</strong> <span th:text="${productName}"></span></p>
+        <p><strong>Price:</strong> <span th:text="${productPrice}"></span></p>
+        <p><strong>Parcel Locker:</strong> <span th:text="${parcelLocker}"></span></p>
+        <img th:src="${productImageUrl}" alt="Product Image">
+    </div>
+    <div class="footer">
+        <p>If you have any questions, contact us at support@uclothes.com</p>
+    </div>
+</div>
+</body>
+</html>

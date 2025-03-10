@@ -66,12 +66,11 @@ public class OrderService {
     public void sendEmailsForOrder(Order order, ClothesOffer product) {
         emailService.sendHtmlEmail(
                 order.getCustomerEmail(),
-                "Potwierdzenie zamówienia " + order.getId() + " - uClothes",
+                "Order confirmation " + order.getId() + " - uClothes",
                 order,
                 product
         );
 
-        // Administrator
         String adminMessage = String.format(
                 "Nowe zamówienie zostało przetworzone:\n\n" +
                         "Produkt: %s\n" +

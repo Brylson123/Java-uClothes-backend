@@ -5,6 +5,7 @@ public enum ClothingCategory {
     PANTS,
     JACKETS,
     SHOES,
+    HOODIES,
     ACCESSORIES;
 
     public static ClothingCategory fromString(String category) {

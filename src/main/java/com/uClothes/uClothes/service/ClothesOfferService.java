@@ -156,14 +156,14 @@ public class ClothesOfferService {
         List<ClothesOffer> offers;
         if (category == null) {
             if (gender != null) {
-                offers = this.clothesRepository.findByGender(gender);
+                offers = this.clothesRepository.findByGenderAndActiveTrue(gender);
             } else {
-                offers = this.clothesRepository.findAll();
+                offers = this.clothesRepository.findByActiveTrue();
             }
         } else if (gender != null) {
-            offers = this.clothesRepository.findByClothingCategoryAndGender(category, gender);
+            offers = this.clothesRepository.findByClothingCategoryAndGenderAndActiveTrue(category, gender);
         } else {
-            offers = this.clothesRepository.findByClothingCategory(category);
+            offers = this.clothesRepository.findByClothingCategoryAndActiveTrue(category);
         }
         return new ResponseOfferDTO(true, offers);
     }

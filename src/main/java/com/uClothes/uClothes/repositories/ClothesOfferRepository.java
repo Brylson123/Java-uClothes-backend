@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ClothesOfferRepository extends JpaRepository<ClothesOffer, UUID> {
-    List<ClothesOffer> findByClothingCategory(ClothingCategory category);
-    List<ClothesOffer> findByClothingCategoryAndGender(ClothingCategory category, Gender gender);
-    List<ClothesOffer> findByGender(Gender gender);
     List<ClothesOffer> findByActiveTrue();
+    List<ClothesOffer> findByClothingCategoryAndActiveTrue(ClothingCategory category);
+    List<ClothesOffer> findByClothingCategoryAndGenderAndActiveTrue(ClothingCategory category, Gender gender);
+    List<ClothesOffer> findByGenderAndActiveTrue(Gender gender);
 }

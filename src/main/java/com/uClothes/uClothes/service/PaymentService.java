@@ -22,11 +22,11 @@ public class PaymentService {
                                         String cancelUrl, String customerEmail, String productImageUrl, UUID productId,
                                         Map<String, String> metadata) throws Exception {
         Stripe.apiKey = stripeSecretKey;
-
         SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.BLIK)
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setCustomerEmail(String.valueOf(customerEmail))
                 .setSuccessUrl(successUrl)
                 .setCancelUrl(cancelUrl)
                 .setClientReferenceId(productId.toString())

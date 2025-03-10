@@ -22,8 +22,8 @@ public class OrderController {
     @PostMapping("/checkout")
     public ResponseEntity<Map<String, String>> createOrderWithPayment(@RequestBody OrderRequestDTO orderRequestDTO) {
         try {
-            String successUrl = webUrl + "/checkout/success";
-            String cancelUrl = webUrl + "/checkout/cancel";
+            String successUrl = webUrl + "checkout/success";
+            String cancelUrl = webUrl + "checkout/cancel";
 
             Map<String, String> response = orderService.createPaymentSession(orderRequestDTO, successUrl, cancelUrl);
             return ResponseEntity.ok(response);
